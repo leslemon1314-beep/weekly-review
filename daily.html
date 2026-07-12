@@ -195,6 +195,19 @@
   .task-row.done [data-field="task"]{color:var(--muted); text-decoration:line-through;}
   .task-del{border:none; background:none; color:var(--muted); font-size:16px; cursor:pointer; width:26px; height:26px; flex:none;}
   .task-del:hover{color:#a24c3a;}
+  .task-save{
+    border:1px solid var(--border);
+    background:var(--paper-2);
+    color:var(--muted);
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+    width:30px; height:30px;
+    flex:none;
+    margin-top:2px;
+  }
+  .task-save:hover{border-color:var(--day); color:var(--day);}
+  .task-save.saved{background:var(--day); border-color:var(--day); color:#fff;}
   .focus-empty{
     font-size:13px;
     color:var(--muted);
@@ -451,12 +464,14 @@
       '<div class="task-row-top">' +
         '<select data-field="status">' + options + '</select>' +
         '<textarea rows="1" placeholder="要做的事" data-field="task">' + (t.task || '') + '</textarea>' +
+        '<button class="task-save" aria-label="儲存這項">✓</button>' +
         '<button class="task-del" aria-label="刪除項目">×</button>' +
       '</div>' +
       '<textarea rows="1" placeholder="備註" data-field="note">' + (t.note || '') + '</textarea>';
     row.querySelector('[data-field="status"]').addEventListener('change', function(e){
       setStatus(t, e.target.value);
       renderTasks();
+      saveAll();
     });
     var taskEl = row.querySelector('[data-field="task"]');
     var noteEl = row.querySelector('[data-field="note"]');
@@ -464,9 +479,17 @@
     autoGrow(noteEl);
     taskEl.addEventListener('input', function(e){ t.task = e.target.value; updateProgress(); autoGrow(e.target); });
     noteEl.addEventListener('input', function(e){ t.note = e.target.value; autoGrow(e.target); });
+    var saveBtn = row.querySelector('.task-save');
+    saveBtn.addEventListener('click', function(){
+      saveBtn.classList.add('saved');
+      saveAll().then(function(){
+        setTimeout(function(){ saveBtn.classList.remove('saved'); }, 900);
+      });
+    });
     row.querySelector('.task-del').addEventListener('click', function(){
       currentTasks.splice(currentTasks.indexOf(t),1);
       renderTasks();
+      saveAll();
     });
     return row;
   }
@@ -476,18 +499,21 @@
     renderTasks();
   });
 
-  document.getElementById('saveBtn').addEventListener('click', function(){
-    var status = document.getElementById('saveStatus');
+  function saveAll(indicatorEl){
     var data = {
       savedAt: new Date().toISOString(),
       tasks: currentTasks.filter(function(t){ return t.task || t.note; })
     };
-    status.textContent = '儲存中...';
-    set(ref(db, 'dayTasks/' + toKey(cur)), data).then(function(){
-      status.textContent = '已儲存';
+    if(indicatorEl) indicatorEl.textContent = '儲存中...';
+    return set(ref(db, 'dayTasks/' + toKey(cur)), data).then(function(){
+      if(indicatorEl) indicatorEl.textContent = '已儲存';
     }).catch(function(){
-      status.textContent = '儲存失敗';
+      if(indicatorEl) indicatorEl.textContent = '儲存失敗';
     });
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', function(){
+    saveAll(document.getElementById('saveStatus'));
   });
 
   document.getElementById('prevDay').addEventListener('click', function(){
