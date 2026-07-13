@@ -3,111 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>複盤 首頁</title>
+<title>人生只想躺平</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="theme.css">
 <style>
-  :root{
-    --ink:#20211d;
-    --paper:#f6f4ee;
-    --paper-2:#ffffff;
-    --board:#b98d4f;
-    --board-line:#8a6a3a;
-    --stone-black:#20211d;
-    --stone-white:#fbfaf6;
-    --work:#3b6b5a;
-    --day:#3b5a6b;
-    --muted:#8b8a80;
-    --border:#e1ddd0;
-    --shadow:0 1px 2px rgba(32,33,29,0.06);
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter', -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-    line-height:1.6;
-  }
-  header{
-    position:relative;
-    padding:72px 20px 56px;
-    text-align:center;
-    background:
-      linear-gradient(var(--board-line) 1px, transparent 1px) 0 0/28px 28px,
-      linear-gradient(90deg, var(--board-line) 1px, transparent 1px) 0 0/28px 28px,
-      var(--board);
-    background-blend-mode:overlay;
-    overflow:hidden;
-  }
-  header::before{
-    content:"";
-    position:absolute; inset:0;
-    background:radial-gradient(ellipse at center, transparent 0%, var(--paper) 78%);
-  }
-  header h1{
-    position:relative;
-    font-family:'Noto Serif TC', serif;
-    font-weight:700;
-    font-size:38px;
-    margin:0 0 8px;
-    letter-spacing:0.04em;
-  }
-  header p{position:relative; margin:0; color:var(--ink); font-size:15px; opacity:0.72;}
-  .stones{position:relative; display:flex; justify-content:center; gap:8px; margin-top:20px;}
-  .stone{width:12px;height:12px;border-radius:50%;}
-  .stone.b{background:var(--stone-black);}
-  .stone.w{background:var(--stone-white); border:1px solid var(--board-line);}
-
-  .wrap{max-width:640px; margin:-32px auto 0; padding:0 20px 80px; position:relative;}
-  .cards{display:grid; gap:16px;}
-  .card{
-    display:block;
-    background:var(--paper-2);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:26px 26px;
-    box-shadow:var(--shadow);
-    text-decoration:none;
-    color:var(--ink);
-    transition:border-color 0.15s;
-  }
-  .card:hover{border-color:var(--card-accent, var(--board-line));}
-  .card.review{--card-accent:var(--work);}
-  .card.daily{--card-accent:var(--day);}
-  .card-top{display:flex; align-items:center; gap:12px; margin-bottom:8px;}
-  .card-dot{width:11px; height:11px; border-radius:50%; background:var(--card-accent);}
-  .card-title{
-    font-family:'Noto Serif TC', serif;
-    font-weight:700;
-    font-size:19px;
-    color:var(--card-accent);
-  }
-  .card-desc{font-size:14px; color:var(--muted); margin:0; padding-left:23px;}
-  .card-arrow{float:right; color:var(--muted); font-size:18px;}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px;}
 </style>
 </head>
 <body>
-<header>
-  <h1>複盤</h1>
-  <p>回顧目標・評估結果・分析原因・總結規律</p>
-  <div class="stones">
-    <span class="stone b"></span><span class="stone w"></span><span class="stone b"></span>
-  </div>
-</header>
+<div class="hero">
+  <p class="hero-eyebrow">just lie flat</p>
+  <h1>人生只想躺平</h1>
+  <p>紀錄一下,然後好好躺平</p>
+</div>
 
 <div class="wrap">
   <div class="cards">
-    <a class="card review" href="review.html">
-      <span class="card-arrow">›</span>
-      <div class="card-top"><span class="card-dot"></span><span class="card-title">週複盤</span></div>
-      <p class="card-desc">每週回顧工作與生活的目標、結果、原因與行動,累積可複製的經驗。</p>
+    <a class="card" href="daily.html">
+      <i class="ti ti-checklist" aria-hidden="true"></i>
+      <p class="card-title">每日任務</p>
+      <p class="card-desc">daily tasks</p>
     </a>
-    <a class="card daily" href="daily.html">
-      <span class="card-arrow">›</span>
-      <div class="card-top"><span class="card-dot"></span><span class="card-title">每日任務</span></div>
-      <p class="card-desc">把這週的計畫拆到每一天,列出具體要做的事,做完就打勾。</p>
+    <a class="card" href="review.html">
+      <i class="ti ti-notebook" aria-hidden="true"></i>
+      <p class="card-title">週複盤</p>
+      <p class="card-desc">weekly review</p>
     </a>
   </div>
 </div>

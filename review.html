@@ -6,347 +6,70 @@
 <title>週複盤</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="theme.css">
 <style>
-  :root{
-    --ink:#20211d;
-    --paper:#f6f4ee;
-    --paper-2:#ffffff;
-    --board:#b98d4f;
-    --board-line:#8a6a3a;
-    --stone-black:#20211d;
-    --stone-white:#fbfaf6;
-    --work:#3b6b5a;
-    --work-bg:#e7f0ec;
-    --life:#a24c3a;
-    --life-bg:#f7e9e3;
-    --muted:#8b8a80;
-    --border:#e1ddd0;
-    --shadow:0 1px 2px rgba(32,33,29,0.06);
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter', -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-    line-height:1.6;
-  }
-  .wrap{
-    max-width:760px;
-    margin:0 auto;
-    padding:0 20px 80px;
-  }
-  header{
-    position:relative;
-    padding:56px 20px 40px;
-    text-align:center;
+  .hero{padding:30px 24px 26px; margin:16px 20px 0;}
+  .hero h1{font-size:20px;}
+
+  .weeknav{display:flex; align-items:center; justify-content:center; gap:18px; margin:18px 0 18px;}
+  .weeknav button{width:32px; height:32px; border-radius:50%; border:1px solid var(--border); background:var(--paper-2); cursor:pointer; font-size:15px; color:var(--ink);}
+  .weeknav button:hover{border-color:var(--accent);}
+  .weeklabel{background:rgba(255,251,246,0.7); border-radius:12px; padding:8px 20px; text-align:center; min-width:150px;}
+  .weeklabel .y{font-family:Georgia, serif; font-weight:700; font-size:15px; color:var(--ink);}
+  .weeklabel .r{font-size:11px; color:var(--muted); margin-top:2px;}
+
+  .draw-wrap{text-align:center; margin-bottom:20px;}
+  .draw-label{font-size:10px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin:0 0 10px;}
+  .tarot-card{
+    cursor:pointer; display:inline-block; border-radius:16px; padding:12px; width:220px;
     background:
-      linear-gradient(var(--board-line) 1px, transparent 1px) 0 0/28px 28px,
-      linear-gradient(90deg, var(--board-line) 1px, transparent 1px) 0 0/28px 28px,
-      var(--board);
-    background-blend-mode:overlay;
-    overflow:hidden;
+      radial-gradient(2px 2px at 20% 25%, #f3e9dc 100%, transparent),
+      radial-gradient(1.5px 1.5px at 75% 15%, #d4af7a 100%, transparent),
+      radial-gradient(1.5px 1.5px at 85% 60%, #f3e9dc 100%, transparent),
+      radial-gradient(2px 2px at 30% 80%, #d4af7a 100%, transparent),
+      radial-gradient(circle at 30% 20%, #2b2f5c, transparent 60%),
+      radial-gradient(circle at 80% 80%, #1c1f42, transparent 60%),
+      var(--navy);
+    transition:transform 0.4s;
   }
-  header::before{
-    content:"";
-    position:absolute; inset:0;
-    background:radial-gradient(ellipse at center, transparent 0%, var(--paper) 78%);
-  }
-  header h1{
-    position:relative;
-    font-family:'Noto Serif TC', serif;
-    font-weight:700;
-    font-size:34px;
-    margin:0 0 6px;
-    letter-spacing:0.04em;
-  }
-  header p{
-    position:relative;
-    margin:0;
-    color:var(--ink);
-    font-size:14px;
-    opacity:0.72;
-  }
-  .stones{
-    position:relative;
-    display:flex;
-    justify-content:center;
-    gap:8px;
-    margin-top:18px;
-  }
-  .stone{
-    width:12px;height:12px;border-radius:50%;
-  }
-  .stone.b{background:var(--stone-black);}
-  .stone.w{background:var(--stone-white); border:1px solid var(--board-line);}
+  .tarot-inner{position:relative; border:1.5px solid var(--gold); border-radius:12px; padding:26px 18px; min-height:80px; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+  .tarot-inner .corner{position:absolute; color:var(--gold); font-size:11px;}
+  .c-tl{top:6px; left:6px;} .c-tr{top:6px; right:6px;} .c-bl{bottom:6px; left:6px;} .c-br{bottom:6px; right:6px;}
+  .tarot-inner i{font-size:22px; color:var(--gold);}
+  .tarot-name{font-family:Georgia, serif; font-size:15px; color:#f3e9dc; margin:12px 0 8px; letter-spacing:0.08em;}
+  .tarot-rule{width:26px; height:1px; background:rgba(212,175,122,0.5); margin:0 auto 8px;}
+  .tarot-msg{font-size:11px; color:#c9c3d9; margin:0; line-height:1.7;}
+  .draw-status{font-size:11px; color:var(--muted-2); margin:12px 0 0;}
 
-  .weeknav{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:22px;
-    margin:-28px 0 32px;
-    position:relative;
-  }
-  .weeknav button{
-    width:36px;height:36px;
-    border-radius:50%;
-    border:1px solid var(--border);
-    background:var(--paper-2);
-    box-shadow:var(--shadow);
-    cursor:pointer;
-    font-size:16px;
-    color:var(--ink);
-  }
-  .weeknav button:hover{background:var(--paper);}
-  .weeklabel{
-    background:var(--paper-2);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:10px 22px;
-    text-align:center;
-    box-shadow:var(--shadow);
-    min-width:160px;
-  }
-  .weeklabel .y{font-family:'Noto Serif TC', serif; font-weight:700; font-size:17px;}
-  .weeklabel .r{font-size:12px; color:var(--muted); margin-top:2px;}
+  .tags-row{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;}
+  .tag-chip{display:flex; align-items:center; gap:6px; background:rgba(139,90,60,0.12); color:#6b4326; font-size:11px; padding:5px 6px 5px 12px; border-radius:20px;}
+  .tag-chip button{border:none; background:none; color:#6b4326; cursor:pointer; font-size:12px; padding:0 2px;}
+  .tag-add{display:flex; gap:8px; margin-bottom:20px;}
+  .tag-add input{flex:1;}
+  .tag-add button{flex:none;}
 
-  .section{
-    background:var(--paper-2);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:22px 24px;
-    margin-bottom:20px;
-    box-shadow:var(--shadow);
-  }
-  .section-title{
-    display:flex; align-items:center; gap:10px;
-    font-family:'Noto Serif TC', serif;
-    font-weight:700;
-    font-size:17px;
-    margin-bottom:18px;
-  }
-  .dot{width:10px;height:10px;border-radius:50%;}
-  .section.work .dot{background:var(--work);}
-  .section.life .dot{background:var(--life);}
-  .section.work .section-title{color:var(--work);}
-  .section.life .section-title{color:var(--life);}
+  .tabs{display:flex; gap:8px; margin-bottom:16px;}
+  .tabs button{flex:1; border:none; border-radius:10px; padding:9px 0; font-size:12px; cursor:pointer; font-family:inherit; background:rgba(255,251,246,0.5); color:var(--muted);}
+  .tabs button.active{background:var(--accent); color:var(--paper-2); font-weight:500;}
+  .tabs button.life.active{background:var(--accent-2);}
 
-  .field{margin-bottom:16px;}
-  .field:last-child{margin-bottom:0;}
-  .field label{
-    display:block;
-    font-size:13px;
-    color:var(--muted);
-    margin-bottom:6px;
-  }
-  .field textarea{
-    width:100%;
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:10px 12px;
-    font-family:inherit;
-    font-size:14px;
-    color:var(--ink);
-    background:var(--paper);
-    resize:vertical;
-    min-height:52px;
-  }
-  .section.work .field textarea:focus{outline:none; border-color:var(--work); background:var(--work-bg);}
-  .section.life .field textarea:focus{outline:none; border-color:var(--life); background:var(--life-bg);}
+  .field-group{display:none; display:grid; gap:10px; margin-bottom:16px;}
+  .field-group.active{display:grid;}
+  .field-card{background:rgba(255,251,246,0.7); border-radius:12px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start;}
+  .field-card i{font-size:18px; color:var(--accent); flex:none; margin-top:6px;}
+  .field-card .fc-body{flex:1;}
+  .field-card label{font-size:10px; color:var(--muted); letter-spacing:0.05em; display:block; margin-bottom:2px;}
+  .field-card textarea{border:none; background:none; padding:0; font-size:13px; min-height:20px;}
+  .field-card textarea:focus{outline:none;}
 
-  .actions{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    margin:28px 0 40px;
-  }
-  .save-btn{
-    flex:1;
-    padding:13px;
-    border:none;
-    border-radius:10px;
-    background:var(--ink);
-    color:var(--paper);
-    font-size:15px;
-    font-weight:500;
-    cursor:pointer;
-    font-family:'Noto Serif TC', serif;
-    letter-spacing:0.02em;
-  }
-  .save-btn:hover{background:#3a3b34;}
-  .save-status{font-size:13px; color:var(--muted); min-width:60px;}
-
-  .history{
-    border-top:1px solid var(--border);
-    padding-top:22px;
-  }
-  .history-title{
-    font-size:13px;
-    font-weight:500;
-    color:var(--muted);
-    margin-bottom:12px;
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-  }
-  .history-list{display:grid; gap:8px;}
-  .history-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px 14px;
-    background:var(--paper-2);
-    border:1px solid var(--border);
-    border-radius:8px;
-    cursor:pointer;
-    font-size:13px;
-  }
-  .history-item:hover{border-color:var(--board-line);}
-  .history-item .wk{font-weight:500;}
-  .history-item .snippet{color:var(--muted); font-size:12px; margin-left:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; text-align:right;}
-  .empty{color:var(--muted); font-size:13px; padding:8px 2px;}
-
-  .topnav{
-    max-width:760px;
-    margin:0 auto;
-    padding:16px 20px 0;
-    display:flex;
-    gap:16px;
-    font-size:13px;
-  }
-  .topnav a{
-    color:var(--muted);
-    text-decoration:none;
-    padding:4px 0;
-    border-bottom:1px solid transparent;
-  }
-  .topnav a:hover{color:var(--ink); border-color:var(--board-line);}
-  .topnav a.current{color:var(--ink); font-weight:500; border-color:var(--board-line);}
-
-  #helpBtn{
-    position:fixed;
-    right:22px; bottom:22px;
-    width:44px; height:44px;
-    border-radius:50%;
-    border:1px solid var(--board-line);
-    background:var(--ink);
-    color:var(--paper);
-    font-family:'Noto Serif TC', serif;
-    font-size:18px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 2px 8px rgba(32,33,29,0.25);
-    z-index:10;
-  }
-  #helpBtn:hover{background:#3a3b34;}
-
-  .help-overlay{
-    position:fixed; inset:0;
-    background:rgba(32,33,29,0.45);
-    display:flex; align-items:center; justify-content:center;
-    padding:20px;
-    z-index:20;
-  }
-  .help-overlay[hidden]{display:none;}
-  .help-modal{
-    position:relative;
-    background:var(--paper-2);
-    border-radius:16px;
-    max-width:440px;
-    width:100%;
-    max-height:86vh;
-    overflow-y:auto;
-    padding:32px 28px 26px;
-    box-shadow:0 8px 30px rgba(32,33,29,0.3);
-  }
-  .help-modal h2{
-    font-family:'Noto Serif TC', serif;
-    font-size:22px;
-    margin:0 0 12px;
-  }
-  .help-close{
-    position:absolute; top:14px; right:14px;
-    width:30px; height:30px;
-    border-radius:50%;
-    border:1px solid var(--border);
-    background:var(--paper);
-    font-size:16px;
-    cursor:pointer;
-    color:var(--ink);
-  }
-  .help-close:hover{background:var(--paper-2); border-color:var(--board-line);}
-  .help-intro{font-size:14px; color:var(--ink); margin:0 0 20px;}
-  .help-steps{display:grid; gap:14px; margin-bottom:20px;}
-  .help-step{display:flex; gap:12px; align-items:flex-start;}
-  .help-num{
-    flex:none;
-    width:24px; height:24px;
-    border-radius:50%;
-    background:var(--board);
-    color:var(--stone-white);
-    font-size:12px; font-weight:700;
-    display:flex; align-items:center; justify-content:center;
-    margin-top:1px;
-  }
-  .help-step strong{font-size:14px;}
-  .help-step p{margin:2px 0 0; font-size:13px; color:var(--muted);}
-  .section.plan .dot{background:var(--board-line);}
-  .section.plan .section-title{color:var(--board-line);}
   .task-list{display:grid; gap:8px; margin-bottom:12px;}
-  .task-row{
-    display:grid;
-    grid-template-columns:auto 92px 1fr 1fr auto;
-    gap:8px;
-    align-items:center;
-  }
-  .task-row input[type="checkbox"]{
-    width:18px; height:18px;
-    accent-color:var(--board-line);
-    cursor:pointer;
-  }
-  .task-row input[type="date"],
-  .task-row input[type="text"]{
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:8px 10px;
-    font-family:inherit;
-    font-size:13px;
-    color:var(--ink);
-    background:var(--paper);
-    width:100%;
-  }
-  .task-row.done input[type="text"]{
-    color:var(--muted);
-    text-decoration:line-through;
-  }
-  .task-del{
-    border:none;
-    background:none;
-    color:var(--muted);
-    font-size:16px;
-    cursor:pointer;
-    width:26px; height:26px;
-  }
-  .task-del:hover{color:var(--life);}
-  .add-task-btn{
-    border:1px dashed var(--border);
-    background:none;
-    border-radius:8px;
-    padding:8px 12px;
-    font-size:13px;
-    color:var(--muted);
-    cursor:pointer;
-    width:100%;
-  }
-  .add-task-btn:hover{border-color:var(--board-line); color:var(--ink);}
-  .help-tip{
-    font-size:12px;
-    color:var(--muted);
-    border-top:1px solid var(--border);
-    padding-top:14px;
-    margin:0;
-  }
+  .task-row{display:grid; grid-template-columns:auto 92px 1fr 1fr auto; gap:8px; align-items:center;}
+  .task-row input[type="checkbox"]{width:18px; height:18px; accent-color:var(--accent); cursor:pointer;}
+  .task-row.done input[type="text"]{color:var(--muted); text-decoration:line-through;}
+  .task-del{border:none; background:none; color:var(--muted); font-size:16px; cursor:pointer; width:26px; height:26px;}
+  .task-del:hover{color:var(--accent-2);}
   @media (max-width:520px){
     .task-row{grid-template-columns:auto 1fr auto; grid-template-areas:"check date del" "check task task" "check note note";}
     .task-row input[type="checkbox"]{grid-area:check;}
@@ -355,46 +78,58 @@
     .task-row input[data-field="note"]{grid-area:note;}
     .task-del{grid-area:del;}
   }
+
+  .actions{display:flex; align-items:center; gap:14px; margin:24px 0 32px;}
+  .save-status{font-size:13px; color:var(--muted); min-width:60px;}
+
+  .history-list{display:grid; gap:8px;}
+  .history-item{display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--paper-2); border-radius:8px; cursor:pointer; font-size:13px;}
+  .history-item:hover{color:var(--accent);}
+  .history-item .snippet{color:var(--muted); font-size:12px; margin-left:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; text-align:right;}
+
+  #helpBtn{
+    position:fixed; right:22px; bottom:22px; width:44px; height:44px; border-radius:50%;
+    border:none; background:var(--accent); color:var(--paper-2); font-family:Georgia, serif;
+    font-size:18px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(61,47,36,0.3); z-index:10;
+  }
+  #helpBtn:hover{background:var(--accent-hover);}
+  .help-overlay{position:fixed; inset:0; background:rgba(61,47,36,0.45); display:flex; align-items:center; justify-content:center; padding:20px; z-index:20;}
+  .help-overlay[hidden]{display:none;}
+  .help-modal{position:relative; background:var(--paper-2); border-radius:16px; max-width:420px; width:100%; max-height:86vh; overflow-y:auto; padding:32px 28px 26px;}
+  .help-modal h2{font-family:Georgia, serif; font-size:20px; margin:0 0 12px; color:var(--ink);}
+  .help-close{position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:50%; border:1px solid var(--border); background:var(--paper); font-size:16px; cursor:pointer; color:var(--ink);}
+  .help-intro{font-size:14px; color:var(--ink); margin:0 0 20px;}
+  .help-steps{display:grid; gap:14px; margin-bottom:20px;}
+  .help-step{display:flex; gap:12px; align-items:flex-start;}
+  .help-num{flex:none; width:24px; height:24px; border-radius:50%; background:var(--accent); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;}
+  .help-step strong{font-size:14px;}
+  .help-step p{margin:2px 0 0; font-size:13px; color:var(--muted);}
+  .help-tip{font-size:12px; color:var(--muted); border-top:1px solid var(--border); padding-top:14px; margin:0;}
 </style>
 </head>
 <body>
 <nav class="topnav">
   <a href="index.html">首頁</a>
-  <a href="review.html" class="current">週複盤</a>
   <a href="daily.html">每日任務</a>
+  <a href="review.html" class="current">週複盤</a>
 </nav>
-<header>
+
+<div class="hero">
+  <p class="hero-eyebrow">weekly review</p>
   <h1>週複盤</h1>
-  <p>回顧目標・評估結果・分析原因・總結規律</p>
-  <div class="stones">
-    <span class="stone b"></span><span class="stone w"></span><span class="stone b"></span>
-  </div>
-</header>
+</div>
 
 <button id="helpBtn" aria-label="什麼是複盤" title="什麼是複盤?">?</button>
-
 <div id="helpOverlay" class="help-overlay" hidden>
-  <div class="help-modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="help-modal" role="dialog" aria-modal="true">
     <button id="helpClose" class="help-close" aria-label="關閉說明">×</button>
-    <h2 id="helpTitle">什麼是複盤?</h2>
+    <h2>什麼是複盤?</h2>
     <p class="help-intro">複盤源自圍棋術語,核心是做完一件事後,系統性回顧過程、提煉可複用的經驗,而不只是「感覺不錯」的空泛總結。</p>
     <div class="help-steps">
-      <div class="help-step">
-        <span class="help-num">1</span>
-        <div><strong>回顧目標</strong><p>當初想達成什麼?</p></div>
-      </div>
-      <div class="help-step">
-        <span class="help-num">2</span>
-        <div><strong>評估結果</strong><p>實際發生了什麼,差距在哪?</p></div>
-      </div>
-      <div class="help-step">
-        <span class="help-num">3</span>
-        <div><strong>分析原因</strong><p>最關鍵的一步:誠實拆解成功是實力還是運氣、失敗是計畫還是執行問題。</p></div>
-      </div>
-      <div class="help-step">
-        <span class="help-num">4</span>
-        <div><strong>總結規律</strong><p>哪些經驗可以複製到下一次?</p></div>
-      </div>
+      <div class="help-step"><span class="help-num">1</span><div><strong>回顧目標</strong><p>當初想達成什麼?</p></div></div>
+      <div class="help-step"><span class="help-num">2</span><div><strong>評估結果</strong><p>實際發生了什麼,差距在哪?</p></div></div>
+      <div class="help-step"><span class="help-num">3</span><div><strong>分析原因</strong><p>最關鍵的一步:誠實拆解成功是實力還是運氣、失敗是計畫還是執行問題。</p></div></div>
+      <div class="help-step"><span class="help-num">4</span><div><strong>總結規律</strong><p>哪些經驗可以複製到下一次?</p></div></div>
     </div>
     <p class="help-tip">小提醒:別只看結果、不看過程——結果好不代表過程判斷都對,可能只是運氣好。</p>
   </div>
@@ -410,59 +145,104 @@
     <button id="nextWeek" aria-label="下一週">›</button>
   </div>
 
+  <div class="draw-wrap">
+    <p class="draw-label">宇宙今天想告訴你</p>
+    <div class="tarot-card" id="tarotCard">
+      <div class="tarot-inner" id="tarotInner">
+        <span class="corner c-tl">✦</span><span class="corner c-tr">✦</span><span class="corner c-bl">✦</span><span class="corner c-br">✦</span>
+        <i class="ti ti-sparkles" aria-hidden="true"></i>
+        <p class="tarot-msg">點卡片抽今天的一張</p>
+      </div>
+    </div>
+    <p class="draw-status" id="drawStatus">今天還沒抽卡</p>
+  </div>
+
+  <div class="tags-row" id="tagsRow"></div>
+  <div class="tag-add">
+    <input type="text" id="tagInput" placeholder="本週亮點,輸入後按 Enter 新增">
+    <button class="btn btn-outline" id="tagAddBtn">+</button>
+  </div>
+
   <div class="section plan">
-    <div class="section-title"><span class="dot"></span>本週計畫</div>
+    <div class="section-title">本週計畫</div>
     <div id="taskList" class="task-list"></div>
-    <button id="addTaskBtn" class="add-task-btn">+ 新增項目</button>
+    <button class="btn btn-outline" id="addTaskBtn" style="width:100%;">+ 新增項目</button>
   </div>
 
-  <div class="section work">
-    <div class="section-title"><span class="dot"></span>工作</div>
-    <div class="field">
-      <label>目標:這週原本要達成什麼?</label>
-      <textarea data-key="work_goal" rows="2" placeholder="沒設目標也沒關係,可以問自己:如果這週順利,原本希望是什麼樣子?"></textarea>
+  <div class="tabs">
+    <button class="work active" id="tabWork">工作</button>
+    <button class="life" id="tabLife">生活</button>
+  </div>
+
+  <div class="field-group active" id="groupWork">
+    <div class="field-card">
+      <i class="ti ti-target-arrow" aria-hidden="true"></i>
+      <div class="fc-body">
+        <label>目標:這週原本要達成什麼?</label>
+        <textarea data-key="work_goal" rows="2" placeholder="沒設目標也沒關係,可以問自己:如果這週順利,原本希望是什麼樣子?"></textarea>
+      </div>
     </div>
-    <div class="field">
-      <label>結果:實際發生了什麼?差距在哪?</label>
-      <textarea data-key="work_result" rows="2" placeholder="用事實和數據描述,不靠印象"></textarea>
+    <div class="field-card">
+      <i class="ti ti-flag-check" aria-hidden="true"></i>
+      <div class="fc-body">
+        <label>結果:實際發生了什麼?差距在哪?</label>
+        <textarea data-key="work_result" rows="2" placeholder="用事實和數據描述,不靠印象"></textarea>
+      </div>
     </div>
-    <div class="field">
-      <label>原因:順利或卡關的根本原因是什麼?</label>
-      <textarea data-key="work_reason" rows="2" placeholder="多問幾次「為什麼」,挖到根本原因"></textarea>
+    <div class="field-card">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <div class="fc-body">
+        <label>原因:順利或卡關的根本原因是什麼?</label>
+        <textarea data-key="work_reason" rows="2" placeholder="多問幾次「為什麼」,挖到根本原因"></textarea>
+      </div>
     </div>
-    <div class="field">
-      <label>行動:下週要多做、少做、開始做什麼?</label>
-      <textarea data-key="work_action" rows="2" placeholder="沒頭緒的話,可以延續上一週寫的行動"></textarea>
+    <div class="field-card">
+      <i class="ti ti-arrow-right" aria-hidden="true"></i>
+      <div class="fc-body">
+        <label>行動:下週要多做、少做、開始做什麼?</label>
+        <textarea data-key="work_action" rows="2" placeholder="沒頭緒的話,可以延續上一週寫的行動"></textarea>
+      </div>
     </div>
   </div>
 
-  <div class="section life">
-    <div class="section-title"><span class="dot"></span>生活</div>
-    <div class="field">
-      <label>這週做得好的一件事,為什麼?</label>
-      <textarea data-key="life_good" rows="2" placeholder="沒特別的事也可以寫:哪個小時刻讓我感覺還不錯?"></textarea>
+  <div class="field-group" id="groupLife">
+    <div class="field-card">
+      <i class="ti ti-sparkles" aria-hidden="true"></i>
+      <div class="fc-body">
+        <label>這週做得好的一件事,為什麼?</label>
+        <textarea data-key="life_good" rows="2" placeholder="沒特別的事也可以寫:哪個小時刻讓我感覺還不錯?"></textarea>
+      </div>
     </div>
-    <div class="field">
-      <label>有什麼讓我不舒服或後悔的?真正原因是什麼?</label>
-      <textarea data-key="life_bad" rows="2" placeholder="別急著下結論,先描述當下發生了什麼"></textarea>
+    <div class="field-card">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <div class="fc-body">
+        <label>有什麼讓我不舒服或後悔的?真正原因是什麼?</label>
+        <textarea data-key="life_bad" rows="2" placeholder="別急著下結論,先描述當下發生了什麼"></textarea>
+      </div>
     </div>
-    <div class="field">
-      <label>時間都花在哪?符合我想要的優先順序嗎?</label>
-      <textarea data-key="life_time" rows="2" placeholder="回想這週的行事曆或訊息紀錄,大部分時間花在哪裡"></textarea>
+    <div class="field-card">
+      <i class="ti ti-clock" aria-hidden="true"></i>
+      <div class="fc-body">
+        <label>時間都花在哪?符合我想要的優先順序嗎?</label>
+        <textarea data-key="life_time" rows="2" placeholder="回想這週的行事曆或訊息紀錄,大部分時間花在哪裡"></textarea>
+      </div>
     </div>
-    <div class="field">
-      <label>下週想調整的一個小行動?</label>
-      <textarea data-key="life_action" rows="2" placeholder="一個具體行動就好,不用貪多"></textarea>
+    <div class="field-card">
+      <i class="ti ti-arrow-right" aria-hidden="true"></i>
+      <div class="fc-body">
+        <label>下週想調整的一個小行動?</label>
+        <textarea data-key="life_action" rows="2" placeholder="一個具體行動就好,不用貪多"></textarea>
+      </div>
     </div>
   </div>
 
   <div class="actions">
-    <button class="save-btn" id="saveBtn">儲存這週複盤</button>
+    <button class="btn" id="saveBtn" style="flex:1;">儲存這週複盤</button>
     <span class="save-status" id="saveStatus"></span>
   </div>
 
   <div class="history">
-    <div class="history-title">歷史紀錄</div>
+    <div class="section-title">歷史紀錄</div>
     <div class="history-list" id="historyList"></div>
   </div>
 </div>
@@ -499,12 +279,15 @@
     var f = function(d){ return (d.getUTCMonth()+1) + '/' + String(d.getUTCDate()).padStart(2,'0'); };
     return f(mon) + ' - ' + f(sun);
   }
+  function toDayKey(d){
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
 
   var today = new Date();
   var cur = getISOWeek(today);
   var currentTasks = [];
+  var currentTags = [];
   var currentRef = null;
-  var suppressNextChange = false;
 
   var defaultTasks = [
     {date:'2026-07-12', task:'問主管,若缺工具後續處理流程(跨線借調/申請)大概怎麼跑、要多久', note:'先問清楚,避免卡住不知道怎麼配合', done:false},
@@ -529,8 +312,10 @@
     var key = weekKey(cur.year, cur.week);
     currentTasks = (data.tasks && data.tasks.length)
       ? data.tasks
-      : (key === planWeekKey ? JSON.parse(JSON.stringify(defaultTasks)) : [{date:'', task:'', note:'', done:false}]);
+      : (key === planWeekKey ? JSON.parse(JSON.stringify(defaultTasks)) : []);
+    currentTags = data.highlights || [];
     renderTasks(currentTasks);
+    renderTags();
   }
 
   function watchCurrentWeek(){
@@ -547,44 +332,39 @@
     });
   }
 
-  document.getElementById('saveBtn').addEventListener('click', function(){
+  function saveReview(){
     var status = document.getElementById('saveStatus');
     var data = { savedAt: new Date().toISOString() };
     fields.forEach(function(k){ data[k] = document.querySelector('[data-key="'+k+'"]').value; });
     data.tasks = currentTasks.filter(function(t){ return t.task || t.date || t.note; });
+    data.highlights = currentTags;
     status.textContent = '儲存中...';
     set(ref(db, 'reviews/' + weekKey(cur.year, cur.week)), data).then(function(){
       status.textContent = '已儲存';
     }).catch(function(){
       status.textContent = '儲存失敗';
     });
-  });
+  }
+  document.getElementById('saveBtn').addEventListener('click', saveReview);
 
   document.getElementById('prevWeek').addEventListener('click', function(){
-    cur.week -= 1;
-    if(cur.week < 1){ cur.year -= 1; cur.week = 52; }
-    render();
+    cur.week -= 1; if(cur.week < 1){ cur.year -= 1; cur.week = 52; } render();
   });
   document.getElementById('nextWeek').addEventListener('click', function(){
-    cur.week += 1;
-    if(cur.week > 53){ cur.year += 1; cur.week = 1; }
-    render();
+    cur.week += 1; if(cur.week > 53){ cur.year += 1; cur.week = 1; } render();
   });
 
   function renderHistory(allData){
     var list = document.getElementById('historyList');
     var keys = Object.keys(allData || {}).sort().reverse();
-    if(keys.length === 0){
-      list.innerHTML = '<div class="empty">還沒有任何紀錄。</div>';
-      return;
-    }
+    if(keys.length === 0){ list.innerHTML = '<div class="empty">還沒有任何紀錄。</div>'; return; }
     list.innerHTML = '';
     keys.forEach(function(wk){
       var data = allData[wk] || {};
       var snippet = data.work_goal || data.life_good || '';
       var item = document.createElement('div');
       item.className = 'history-item';
-      item.innerHTML = '<span class="wk">' + wk + '</span><span class="snippet">' + snippet.replace(/</g,'&lt;') + '</span>';
+      item.innerHTML = '<span>' + wk + '</span><span class="snippet">' + snippet.replace(/</g,'&lt;') + '</span>';
       item.addEventListener('click', function(){
         var parts = wk.split('-W');
         cur = { year: parseInt(parts[0]), week: parseInt(parts[1]) };
@@ -593,10 +373,7 @@
       list.appendChild(item);
     });
   }
-
-  onValue(ref(db, 'reviews'), function(snapshot){
-    renderHistory(snapshot.val());
-  });
+  onValue(ref(db, 'reviews'), function(snapshot){ renderHistory(snapshot.val()); });
 
   function renderTasks(tasks){
     var list = document.getElementById('taskList');
@@ -611,40 +388,134 @@
         '<input type="text" placeholder="備註" value="' + (t.note || '').replace(/"/g,'&quot;') + '" data-field="note">' +
         '<button class="task-del" aria-label="刪除項目">×</button>';
       row.querySelector('[data-field="done"]').addEventListener('change', function(e){
-        t.done = e.target.checked;
-        row.classList.toggle('done', t.done);
+        t.done = e.target.checked; row.classList.toggle('done', t.done);
       });
       row.querySelector('[data-field="date"]').addEventListener('input', function(e){ t.date = e.target.value; });
       row.querySelector('[data-field="task"]').addEventListener('input', function(e){ t.task = e.target.value; });
       row.querySelector('[data-field="note"]').addEventListener('input', function(e){ t.note = e.target.value; });
       row.querySelector('.task-del').addEventListener('click', function(){
-        tasks.splice(idx,1);
-        renderTasks(tasks);
+        tasks.splice(idx,1); renderTasks(tasks);
       });
       list.appendChild(row);
     });
   }
-
   document.getElementById('addTaskBtn').addEventListener('click', function(){
     currentTasks.push({date:'', task:'', note:'', done:false});
     renderTasks(currentTasks);
   });
 
-  render();
+  function renderTags(){
+    var row = document.getElementById('tagsRow');
+    row.innerHTML = '';
+    currentTags.forEach(function(tag, idx){
+      var chip = document.createElement('span');
+      chip.className = 'tag-chip';
+      chip.innerHTML = '<span>' + tag.replace(/</g,'&lt;') + '</span><button aria-label="移除">×</button>';
+      chip.querySelector('button').addEventListener('click', function(){
+        currentTags.splice(idx,1); renderTags();
+      });
+      row.appendChild(chip);
+    });
+  }
+  function addTag(){
+    var input = document.getElementById('tagInput');
+    var val = input.value.trim();
+    if(!val) return;
+    currentTags.push(val);
+    input.value = '';
+    renderTags();
+  }
+  document.getElementById('tagAddBtn').addEventListener('click', addTag);
+  document.getElementById('tagInput').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ e.preventDefault(); addTag(); }
+  });
+
+  document.getElementById('tabWork').addEventListener('click', function(){
+    document.getElementById('tabWork').classList.add('active');
+    document.getElementById('tabLife').classList.remove('active');
+    document.getElementById('groupWork').classList.add('active');
+    document.getElementById('groupLife').classList.remove('active');
+  });
+  document.getElementById('tabLife').addEventListener('click', function(){
+    document.getElementById('tabLife').classList.add('active');
+    document.getElementById('tabWork').classList.remove('active');
+    document.getElementById('groupLife').classList.add('active');
+    document.getElementById('groupWork').classList.remove('active');
+  });
 
   var helpBtn = document.getElementById('helpBtn');
   var helpOverlay = document.getElementById('helpOverlay');
-  var helpClose = document.getElementById('helpClose');
-  function openHelp(){ helpOverlay.hidden = false; }
-  function closeHelp(){ helpOverlay.hidden = true; }
-  helpBtn.addEventListener('click', openHelp);
-  helpClose.addEventListener('click', closeHelp);
-  helpOverlay.addEventListener('click', function(e){
-    if(e.target === helpOverlay) closeHelp();
+  document.getElementById('helpClose').addEventListener('click', function(){ helpOverlay.hidden = true; });
+  helpBtn.addEventListener('click', function(){ helpOverlay.hidden = false; });
+  helpOverlay.addEventListener('click', function(e){ if(e.target === helpOverlay) helpOverlay.hidden = true; });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !helpOverlay.hidden) helpOverlay.hidden = true; });
+
+  var tarotDeck = [
+    {icon:'ti-moon-stars', name:'留白', msg:'今天不用把每一格都填滿,留一點空白,答案自然會浮出來。'},
+    {icon:'ti-droplet', name:'順流', msg:'不用逆著今天的節奏硬撐,順著走,今天也會走到該去的地方。'},
+    {icon:'ti-sun', name:'回氣', msg:'你已經燃燒了一段時間,今天允許自己只是回氣,不用發光。'},
+    {icon:'ti-leaf', name:'扎根', msg:'還沒看到結果沒關係,今天做的事都在往下扎根。'},
+    {icon:'ti-feather', name:'放輕', msg:'有件事你一直握得太緊,今天試著鬆開一點點看看。'},
+    {icon:'ti-compass', name:'不急', msg:'方向是對的,慢一點抵達,也還是抵達。'},
+    {icon:'ti-cloud', name:'過去就好', msg:'今天如果不順,不用分析太多,先讓它過去就好。'},
+    {icon:'ti-anchor', name:'先停', msg:'如果覺得很亂,先停下來,不用急著解決。'},
+    {icon:'ti-wind', name:'順其自然', msg:'有些事不是你不夠努力,是還沒到時候。'},
+    {icon:'ti-flower', name:'慢慢開', msg:'你的進度不用跟別人一樣快,慢慢開也是開。'},
+    {icon:'ti-coffee', name:'喘口氣', msg:'先喝口水、喘口氣,事情不會因為你休息五分鐘就崩掉。'},
+    {icon:'ti-umbrella', name:'先躲雨', msg:'今天如果撐不住,躲一下雨也沒關係,雨總會停。'},
+    {icon:'ti-heart', name:'對自己好一點', msg:'今天先站在自己這邊,批評的話明天再說。'},
+    {icon:'ti-stars', name:'小小的光', msg:'不用一次亮起來,今天有一點光就夠了。'},
+    {icon:'ti-mountain', name:'還在路上', msg:'還沒到山頂不代表沒在爬,你一直都在往上走。'},
+    {icon:'ti-seedling', name:'先種下', msg:'今天做的小事,不用馬上看到結果,先種下就好。'},
+    {icon:'ti-wave-saw-tool', name:'有起伏很正常', msg:'今天狀態不好也沒關係,本來就不會每天都在高點。'},
+    {icon:'ti-door', name:'關上也可以', msg:'有些門今天關上,不代表以後打不開。'},
+    {icon:'ti-clock', name:'不用趕', msg:'今天的事今天盡力就好,剩下的留給明天的你。'},
+    {icon:'ti-candle', name:'先照亮自己', msg:'照顧好自己,才有力氣照顧別人,今天先從自己開始。'},
+    {icon:'ti-map', name:'方向對就好', msg:'不確定終點在哪沒關係,方向對,走著走著就會清楚。'},
+    {icon:'ti-bed', name:'休息不是浪費', msg:'今天想休息就休息,那不是浪費時間,是在充電。'},
+    {icon:'ti-plant', name:'耐心一點', msg:'你正在經歷的,是還沒開花的階段,不是沒有進展。'},
+    {icon:'ti-sunrise', name:'新的開始', msg:'昨天的不順,今天可以重新開始,不用背著走。'},
+    {icon:'ti-hand-stop', name:'先拒絕一次', msg:'今天允許自己說不,不用每件事都答應。'},
+    {icon:'ti-puzzle', name:'一塊一塊來', msg:'事情太多不用一次解決,一塊一塊拼,總會拼完。'},
+    {icon:'ti-rainbow', name:'雨後會晴', msg:'現在不順只是暫時的天氣,不是永久的氣候。'},
+    {icon:'ti-key', name:'你有選擇', msg:'今天感覺被困住的話,提醒自己,你其實還是有選擇的。'},
+    {icon:'ti-tree', name:'紮實地長', msg:'看不見的地方(像根)也在成長,不是只有看得見的才算。'},
+    {icon:'ti-ship', name:'先靠岸', msg:'今天如果很累,先靠岸休息,不用勉強繼續航行。'}
+  ];
+
+  var todayKey = toDayKey(new Date());
+  var tarotRef = ref(db, 'dailyCard/' + todayKey);
+  var tarotDrawn = false;
+
+  function renderTarot(c){
+    document.getElementById('tarotInner').innerHTML =
+      '<span class="corner c-tl">✦</span><span class="corner c-tr">✦</span><span class="corner c-bl">✦</span><span class="corner c-br">✦</span>' +
+      '<i class="ti ' + c.icon + '" aria-hidden="true"></i>' +
+      '<p class="tarot-name">' + c.name + '</p>' +
+      '<div class="tarot-rule"></div>' +
+      '<p class="tarot-msg">' + c.msg + '</p>';
+    document.getElementById('drawStatus').textContent = '今天已抽過,明天才會換新的一張';
+    tarotDrawn = true;
+  }
+
+  onValue(tarotRef, function(snapshot){
+    var data = snapshot.val();
+    if(data && data.name){ renderTarot(data); }
   });
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && !helpOverlay.hidden) closeHelp();
+
+  document.getElementById('tarotCard').addEventListener('click', function(){
+    if(tarotDrawn) return;
+    var c = tarotDeck[Math.floor(Math.random() * tarotDeck.length)];
+    var card = document.getElementById('tarotCard');
+    card.style.transform = 'rotateY(90deg)';
+    setTimeout(function(){
+      renderTarot(c);
+      card.style.transform = 'rotateY(0deg)';
+      set(tarotRef, {icon:c.icon, name:c.name, msg:c.msg, drawnAt:new Date().toISOString()});
+    }, 220);
   });
+
+  render();
 </script>
 </body>
 </html>

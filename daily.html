@@ -6,279 +6,107 @@
 <title>每日任務</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="theme.css">
 <style>
-  :root{
-    --ink:#20211d;
-    --paper:#f6f4ee;
-    --paper-2:#ffffff;
-    --board:#b98d4f;
-    --board-line:#8a6a3a;
-    --stone-black:#20211d;
-    --stone-white:#fbfaf6;
-    --day:#3b5a6b;
-    --day-bg:#e7edf0;
-    --muted:#8b8a80;
-    --border:#e1ddd0;
-    --shadow:0 1px 2px rgba(32,33,29,0.06);
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter', -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-    line-height:1.6;
-  }
-  .wrap{max-width:760px; margin:0 auto; padding:0 20px 80px;}
-  .topnav{
-    max-width:760px;
-    margin:0 auto;
-    padding:16px 20px 0;
-    display:flex;
-    gap:16px;
-    font-size:13px;
-  }
-  .topnav a{color:var(--muted); text-decoration:none; padding:4px 0; border-bottom:1px solid transparent;}
-  .topnav a:hover{color:var(--ink); border-color:var(--board-line);}
-  .topnav a.current{color:var(--ink); font-weight:500; border-color:var(--board-line);}
+  .hero{padding:30px 24px 26px; margin:16px 20px 0;}
+  .hero h1{font-size:20px;}
 
-  header{
-    position:relative;
-    padding:56px 20px 40px;
-    text-align:center;
-    background:
-      linear-gradient(var(--board-line) 1px, transparent 1px) 0 0/28px 28px,
-      linear-gradient(90deg, var(--board-line) 1px, transparent 1px) 0 0/28px 28px,
-      var(--board);
-    background-blend-mode:overlay;
-    overflow:hidden;
-  }
-  header::before{
-    content:"";
-    position:absolute; inset:0;
-    background:radial-gradient(ellipse at center, transparent 0%, var(--paper) 78%);
-  }
-  header h1{
-    position:relative;
-    font-family:'Noto Serif TC', serif;
-    font-weight:700;
-    font-size:34px;
-    margin:0 0 6px;
-    letter-spacing:0.04em;
-  }
-  header p{position:relative; margin:0; color:var(--ink); font-size:14px; opacity:0.72;}
-  .stones{position:relative; display:flex; justify-content:center; gap:8px; margin-top:18px;}
-  .stone{width:12px;height:12px;border-radius:50%;}
-  .stone.b{background:var(--stone-black);}
-  .stone.w{background:var(--stone-white); border:1px solid var(--board-line);}
-
-  .daynav{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:22px;
-    margin:-28px 0 32px;
-    position:relative;
-  }
+  .daynav{display:flex; align-items:center; justify-content:center; gap:18px; margin:18px 0 18px;}
   .daynav button{
-    width:36px;height:36px;
-    border-radius:50%;
-    border:1px solid var(--border);
-    background:var(--paper-2);
-    box-shadow:var(--shadow);
-    cursor:pointer;
-    font-size:16px;
-    color:var(--ink);
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--border); background:var(--paper-2);
+    cursor:pointer; font-size:15px; color:var(--ink);
   }
-  .daynav button:hover{background:var(--paper);}
-  .daylabel{
-    background:var(--paper-2);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:10px 22px;
-    text-align:center;
-    box-shadow:var(--shadow);
-    min-width:170px;
-  }
-  .daylabel .y{font-family:'Noto Serif TC', serif; font-weight:700; font-size:17px;}
-  .daylabel .r{font-size:12px; color:var(--muted); margin-top:2px;}
+  .daynav button:hover{border-color:var(--accent);}
+  .daylabel{background:rgba(255,251,246,0.7); border-radius:12px; padding:8px 20px; text-align:center; min-width:150px;}
+  .daylabel .y{font-family:Georgia, serif; font-weight:700; font-size:15px; color:var(--ink);}
+  .daylabel .r{font-size:11px; color:var(--muted); margin-top:2px;}
 
-  .section{
-    background:var(--paper-2);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:22px 24px;
-    margin-bottom:20px;
-    box-shadow:var(--shadow);
-  }
-  .section-title{
+  .announce{
     display:flex; align-items:center; gap:10px;
-    font-family:'Noto Serif TC', serif;
-    font-weight:700;
-    font-size:17px;
-    margin-bottom:18px;
-    color:var(--day);
+    background:rgba(139,90,60,0.14);
+    border-radius:12px; padding:10px 14px;
+    margin:16px 20px 0;
   }
-  .dot{width:10px;height:10px;border-radius:50%; background:var(--day);}
+  .announce i{font-size:18px; color:var(--accent); flex:none; animation:wiggle 2.4s ease-in-out infinite;}
+  .announce-viewport{flex:1; min-width:0; height:18px; overflow:hidden; position:relative;}
+  .announce-track{position:absolute; width:100%;}
+  .announce-track p{height:18px; margin:0; font-size:12px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:18px;}
+  .announce-add-btn{flex:none; background:var(--accent); color:var(--paper-2); border:none; border-radius:8px; padding:6px 12px; font-size:11px; white-space:nowrap; cursor:pointer;}
+  .announce-add-btn:hover{background:var(--accent-hover);}
+  .announce-form{display:none; gap:8px; margin:16px 20px 0;}
+  .announce-form.open{display:flex;}
+  .announce-form input{flex:1;}
+  .announce-form button{flex:none;}
 
-  .progress{
-    height:6px;
-    background:var(--border);
-    border-radius:4px;
-    overflow:hidden;
-    margin-bottom:18px;
-  }
-  .progress-bar{height:100%; background:var(--day); transition:width 0.2s;}
+  .add-bar textarea{min-height:36px;}
+  .add-bar-row{display:flex; gap:8px; margin-bottom:10px;}
+  .add-bar-row select{flex:1;}
+  .add-bar-submit{text-align:right;}
 
-  .group-title{
-    font-size:12px;
-    font-weight:500;
-    color:var(--muted);
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    margin:16px 0 8px;
-  }
-  .group-title:first-child{margin-top:0;}
-  .task-list{display:grid; gap:10px; margin-bottom:4px;}
-  .task-row{
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:10px 12px;
-    background:var(--paper);
-  }
-  .task-row.doing{border-color:var(--day); background:var(--day-bg);}
-  .task-row.done{opacity:0.65;}
-  .task-row-top{
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
-    margin-bottom:8px;
-  }
-  .task-row select{
-    flex:none;
-    margin-top:2px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:6px 8px;
-    font-family:inherit;
-    font-size:12px;
-    color:var(--ink);
-    background:var(--paper-2);
-    cursor:pointer;
-  }
-  .task-row.doing select{border-color:var(--day); color:var(--day); font-weight:500;}
-  .task-row input[type="text"]{
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:8px 10px;
-    font-family:inherit;
-    font-size:13px;
-    color:var(--ink);
-    background:var(--paper-2);
-    width:100%;
-  }
-  .task-row textarea{
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:8px 10px;
-    font-family:inherit;
-    font-size:13px;
-    color:var(--ink);
-    background:var(--paper-2);
-    width:100%;
-    resize:none;
-    overflow:hidden;
-    min-height:36px;
-  }
-  .task-row [data-field="task"]{flex:1;}
-  .task-row.done [data-field="task"]{color:var(--muted); text-decoration:line-through;}
-  .task-del{border:none; background:none; color:var(--muted); font-size:16px; cursor:pointer; width:26px; height:26px; flex:none;}
-  .task-del:hover{color:#a24c3a;}
-  .task-save{
-    border:1px solid var(--border);
-    background:var(--paper-2);
-    color:var(--muted);
-    border-radius:8px;
-    font-size:14px;
-    cursor:pointer;
-    width:30px; height:30px;
-    flex:none;
-    margin-top:2px;
-  }
-  .task-save:hover{border-color:var(--day); color:var(--day);}
-  .task-save.saved{background:var(--day); border-color:var(--day); color:#fff;}
-  .focus-empty{
-    font-size:13px;
-    color:var(--muted);
-    border:1px dashed var(--border);
-    border-radius:10px;
-    padding:12px;
-    margin-bottom:4px;
-  }
-  .add-task-btn{
-    border:1px dashed var(--border);
-    background:none;
-    border-radius:8px;
-    padding:8px 12px;
-    font-size:13px;
-    color:var(--muted);
-    cursor:pointer;
-    width:100%;
-  }
-  .add-task-btn:hover{border-color:var(--day); color:var(--ink);}
+  .board{margin-bottom:14px;}
+  .board-title{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+  .board-title span.label{font-size:12px; font-weight:500;}
+  .board-title .count{font-size:11px; background:rgba(74,51,37,0.08); color:var(--ink); padding:2px 8px; border-radius:10px;}
+  .board.doing .board-title span.label{color:var(--accent);}
+  .board.waiting .board-title span.label{color:var(--muted);}
+  .board.done .board-title span.label{color:#6b4a30;}
 
-  .actions{display:flex; align-items:center; gap:14px; margin:28px 0 40px;}
-  .save-btn{
-    flex:1;
-    padding:13px;
-    border:none;
-    border-radius:10px;
-    background:var(--ink);
-    color:var(--paper);
-    font-size:15px;
-    font-weight:500;
-    cursor:pointer;
-    font-family:'Noto Serif TC', serif;
-    letter-spacing:0.02em;
-  }
-  .save-btn:hover{background:#3a3b34;}
-  .save-status{font-size:13px; color:var(--muted); min-width:60px;}
+  .task-card{background:var(--paper-2); border-radius:10px; padding:10px 12px; margin-bottom:8px;}
+  .task-card:last-child{margin-bottom:0;}
+  .board.doing .task-card{border-left:3px solid var(--accent);}
+  .board.done .task-card{opacity:0.6;}
+  .task-top{display:flex; align-items:center; gap:6px; margin-bottom:10px;}
+  .task-icon{font-size:13px; flex:none;}
+  .pri-dot{width:8px; height:8px; border-radius:50%; flex:none;}
+  .task-name{font-size:12px; color:var(--ink); flex:1; word-break:break-word;}
+  .board.done .task-name{text-decoration:line-through; color:var(--muted);}
+  .task-desc{font-size:11px; color:var(--muted); margin:0 0 10px 19px;}
+  .task-actions{display:flex; justify-content:flex-end; gap:6px;}
+  .task-actions button{border-radius:8px; padding:6px 12px; font-size:11px; cursor:pointer; font-family:inherit; border:1px solid var(--border-strong); background:none; color:var(--muted);}
+  .task-actions button:hover{color:var(--ink); border-color:var(--accent);}
+  .task-actions button.primary{background:var(--accent); border-color:var(--accent); color:var(--paper-2);}
+  .task-actions button.primary:hover{background:var(--accent-hover);}
+  .task-del{border:none; background:none; color:var(--muted); font-size:15px; cursor:pointer; flex:none; width:22px;}
+  .task-del:hover{color:var(--accent-2);}
 
-  .history{border-top:1px solid var(--border); padding-top:22px;}
-  .history-title{
-    font-size:13px; font-weight:500; color:var(--muted);
-    margin-bottom:12px; text-transform:uppercase; letter-spacing:0.05em;
-  }
+  .edit-field{margin-bottom:8px;}
+  .edit-field label{display:block; font-size:10px; color:var(--muted); margin-bottom:4px;}
+  .edit-actions{display:flex; justify-content:flex-end; gap:6px; margin-top:4px;}
+
+  .board-empty{font-size:12px; color:var(--muted); border:1px dashed var(--border); border-radius:10px; padding:12px; text-align:center;}
+
   .history-list{display:grid; gap:8px;}
-  .history-item{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:10px 14px;
-    background:var(--paper-2);
-    border:1px solid var(--border);
-    border-radius:8px;
-    cursor:pointer;
-    font-size:13px;
-  }
-  .history-item:hover{border-color:var(--day);}
-  .history-item .wk{font-weight:500;}
+  .history-item{display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--paper-2); border-radius:8px; cursor:pointer; font-size:13px;}
+  .history-item:hover{color:var(--accent);}
   .history-item .ratio{color:var(--muted); font-size:12px;}
-  .empty{color:var(--muted); font-size:13px; padding:8px 2px;}
 </style>
 </head>
 <body>
 <nav class="topnav">
   <a href="index.html">首頁</a>
-  <a href="review.html">週複盤</a>
   <a href="daily.html" class="current">每日任務</a>
+  <a href="review.html">週複盤</a>
 </nav>
-<header>
+
+<div class="hero">
+  <p class="hero-eyebrow">daily tasks</p>
   <h1>每日任務</h1>
-  <p>一次專注一件事,用狀態切換執行中與等待中</p>
-  <div class="stones">
-    <span class="stone b"></span><span class="stone w"></span><span class="stone b"></span>
+</div>
+
+<div class="announce">
+  <i class="ti ti-speakerphone" aria-hidden="true"></i>
+  <div class="announce-viewport">
+    <div class="announce-track" id="announceTrack"></div>
   </div>
-</header>
+  <button class="announce-add-btn" id="announceToggle">+ 撰寫提醒</button>
+</div>
+<div class="announce-form" id="announceForm">
+  <input type="text" id="announceInput" placeholder="輸入要提醒自己的事">
+  <button class="btn" id="announceSubmit">新增</button>
+</div>
 
 <div class="wrap">
   <div class="daynav">
@@ -290,33 +118,74 @@
     <button id="nextDay" aria-label="後一天">›</button>
   </div>
 
-  <div class="section">
-    <div class="section-title"><span class="dot"></span>今日任務</div>
-    <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
-    <div id="taskList" class="task-list"></div>
-    <button id="addTaskBtn" class="add-task-btn">+ 新增項目</button>
+  <div class="section add-bar">
+    <div class="section-title">新增任務</div>
+    <input type="text" id="newTaskName" placeholder="任務名稱" style="margin-bottom:8px;">
+    <textarea id="newTaskDesc" rows="1" placeholder="敘述(選填)" style="margin-bottom:10px;"></textarea>
+    <div class="add-bar-row">
+      <select id="newTaskPriority">
+        <option value="high">🔴 高優先</option>
+        <option value="mid" selected>🟠 中優先</option>
+        <option value="low">🟢 低優先</option>
+      </select>
+      <select id="newTaskStatus">
+        <option value="waiting" selected>等待中</option>
+        <option value="doing">進行中</option>
+        <option value="done">已完成</option>
+      </select>
+    </div>
+    <div class="add-bar-submit">
+      <button class="btn" id="addTaskBtn">+ 新增任務</button>
+    </div>
   </div>
 
-  <div class="actions">
-    <button class="save-btn" id="saveBtn">儲存今日任務</button>
-    <span class="save-status" id="saveStatus"></span>
+  <div class="board doing">
+    <div class="board-title"><span class="label">▶ 進行中</span><span class="count" id="doingCount">0</span></div>
+    <div id="doingList"></div>
+  </div>
+  <div class="board waiting">
+    <div class="board-title"><span class="label">⏸ 等待中</span><span class="count" id="waitingCount">0</span></div>
+    <div id="waitingList"></div>
+  </div>
+  <div class="board done">
+    <div class="board-title"><span class="label">✓ 已完成</span><span class="count" id="doneCount">0</span></div>
+    <div id="doneList"></div>
   </div>
 
   <div class="history">
-    <div class="history-title">歷史紀錄</div>
+    <div class="section-title">歷史紀錄</div>
     <div class="history-list" id="historyList"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal">
+    <div class="modal-title">更新任務狀態</div>
+    <div class="modal-sub" id="modalTaskName"></div>
+    <select id="modalStatusSelect">
+      <option value="waiting">等待中</option>
+      <option value="doing">進行中</option>
+      <option value="done">已完成</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="modalCancel">取消</button>
+      <button class="btn" id="modalConfirm">確定</button>
+    </div>
   </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getDatabase, ref, set, onValue, off } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+  import { getDatabase, ref, set, push, onValue, off } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
   import { firebaseConfig } from "./firebase-config.js";
 
   var app = initializeApp(firebaseConfig);
   var db = getDatabase(app);
 
   var weekdayNames = ['日','一','二','三','四','五','六'];
+  var priorityLabels = {high:'🔴', mid:'🟠', low:'🟢'};
+  var priorityColors = {high:'var(--pri-high)', mid:'var(--pri-mid)', low:'var(--pri-low)'};
+  var statusIcons = {waiting:'⏸', doing:'▶', done:'✓'};
 
   function toKey(d){
     var y = d.getFullYear();
@@ -324,81 +193,68 @@
     var day = String(d.getDate()).padStart(2,'0');
     return y + '-' + m + '-' + day;
   }
-  function fmtLabel(d){
-    return (d.getMonth()+1) + '月' + d.getDate() + '日';
-  }
-  function fmtWeekday(d){
-    return '星期' + weekdayNames[d.getDay()];
-  }
+  function fmtLabel(d){ return (d.getMonth()+1) + '月' + d.getDate() + '日'; }
+  function fmtWeekday(d){ return '星期' + weekdayNames[d.getDay()]; }
+  function genId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+  function autoGrow(el){ el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
 
   var cur = new Date();
   cur.setHours(0,0,0,0);
 
   var seedTasks = {
-    '2026-07-12': [
-      {task:'問主管:若缺工具,後續處理流程(跨線借調/申請)大概怎麼跑、要多久', note:'先問清楚,避免卡住不知道怎麼配合', status:'doing'}
-    ],
     '2026-07-13': [
-      {task:'報工後列印第一款車種爆炸圖', note:'', status:'doing'},
-      {task:'確認扭力範圍', note:'', status:'waiting'},
-      {task:'跑現場核對工具', note:'邊做邊記錄:去了哪、花多久、有沒有找到', status:'waiting'},
-      {task:'若缺工具,彙整清單告知主管', note:'', status:'waiting'}
+      {task:'報工後列印第一款車種爆炸圖', note:'', status:'doing', priority:'high'},
+      {task:'確認扭力範圍', note:'', status:'waiting', priority:'high'},
+      {task:'跑現場核對工具', note:'邊做邊記錄:去了哪、花多久、有沒有找到', status:'waiting', priority:'mid'},
+      {task:'若缺工具,彙整清單告知主管', note:'', status:'waiting', priority:'mid'}
     ],
     '2026-07-14': [
-      {task:'列印第二款車種爆炸圖', note:'', status:'doing'},
-      {task:'重複核對扭力範圍與現場工具', note:'對照第一次花的時間,看有沒有變快', status:'waiting'}
+      {task:'列印第二款車種爆炸圖', note:'', status:'doing', priority:'high'},
+      {task:'重複核對扭力範圍與現場工具', note:'對照第一次花的時間,看有沒有變快', status:'waiting', priority:'mid'}
     ],
     '2026-07-15': [
-      {task:'開線', note:'', status:'doing'},
-      {task:'事後複盤:哪裡卡、哪裡比預期順', note:'', status:'waiting'}
+      {task:'開線', note:'', status:'doing', priority:'high'},
+      {task:'事後複盤:哪裡卡、哪裡比預期順', note:'', status:'waiting', priority:'low'}
     ]
   };
 
-  function autoGrow(el){
-    el.style.height = 'auto';
-    el.style.height = el.scrollHeight + 'px';
-  }
-
   var currentTasks = [];
   var currentRef = null;
+  var editingId = null;
+  var modalTaskId = null;
+
+  function ensureIds(tasks){
+    tasks.forEach(function(t){
+      if(!t.id) t.id = genId();
+      if(!t.status) t.status = 'waiting';
+      if(!t.priority) t.priority = 'mid';
+    });
+  }
 
   function render(){
     document.getElementById('dayLabel').textContent = fmtLabel(cur);
     document.getElementById('dayRange').textContent = fmtWeekday(cur);
+    editingId = null;
     watchCurrentDay();
   }
 
   function watchCurrentDay(){
-    var status = document.getElementById('saveStatus');
-    status.textContent = '連線中...';
     if(currentRef) off(currentRef);
     var key = toKey(cur);
     currentRef = ref(db, 'dayTasks/' + key);
     onValue(currentRef, function(snapshot){
-      status.textContent = '';
       var data = snapshot.val();
       if(data && data.tasks && data.tasks.length){
         currentTasks = data.tasks;
       }else if(seedTasks[key]){
         currentTasks = JSON.parse(JSON.stringify(seedTasks[key]));
       }else{
-        currentTasks = [{task:'', note:'', status:'waiting'}];
+        currentTasks = [];
       }
-      currentTasks.forEach(function(t){ if(!t.status) t.status = t.done ? 'done' : 'waiting'; });
-      renderTasks();
-    }, function(){
-      status.textContent = '無法連線,請檢查網路';
+      ensureIds(currentTasks);
+      renderBoards();
     });
   }
-
-  function updateProgress(){
-    var total = currentTasks.filter(function(t){ return t.task; }).length;
-    var done = currentTasks.filter(function(t){ return t.task && t.status === 'done'; }).length;
-    var pct = total ? Math.round((done/total)*100) : 0;
-    document.getElementById('progressBar').style.width = pct + '%';
-  }
-
-  var statusLabels = {doing:'執行中', waiting:'等待中', done:'已完成'};
 
   function setStatus(t, newStatus){
     if(newStatus === 'doing'){
@@ -409,129 +265,170 @@
     t.status = newStatus;
   }
 
-  function renderTasks(){
-    var list = document.getElementById('taskList');
+  function renderBoards(){
+    renderColumn('doing', 'doingList', 'doingCount', '目前沒有進行中的任務,從等待中挑一項按「更新進度」開始。');
+    renderColumn('waiting', 'waitingList', 'waitingCount', '沒有等待中的項目,用上方欄位新增一項吧。');
+    renderColumn('done', 'doneList', 'doneCount', '還沒有已完成的項目。');
+  }
+
+  function renderColumn(statusKey, listId, countId, emptyMsg){
+    var list = document.getElementById(listId);
     list.innerHTML = '';
-
-    var doing = currentTasks.filter(function(t){ return t.status === 'doing'; });
-    var waiting = currentTasks.filter(function(t){ return t.status === 'waiting'; });
-    var done = currentTasks.filter(function(t){ return t.status === 'done'; });
-
-    var doingTitle = document.createElement('div');
-    doingTitle.className = 'group-title';
-    doingTitle.textContent = '專注 · 執行中';
-    list.appendChild(doingTitle);
-    if(doing.length === 0){
+    var items = currentTasks.filter(function(t){
+      var isEditingThis = editingId === t.id;
+      return (t.task || isEditingThis) && t.status === statusKey;
+    });
+    document.getElementById(countId).textContent = items.length;
+    if(items.length === 0){
       var empty = document.createElement('div');
-      empty.className = 'focus-empty';
-      empty.textContent = '目前沒有進行中的任務,從下面等待中的項目挑一件開始。';
+      empty.className = 'board-empty';
+      empty.textContent = emptyMsg;
       list.appendChild(empty);
     }else{
-      doing.forEach(function(t){ list.appendChild(buildRow(t)); });
+      items.forEach(function(t){ list.appendChild(buildCard(t)); });
     }
-
-    var waitingTitle = document.createElement('div');
-    waitingTitle.className = 'group-title';
-    waitingTitle.textContent = '等待中';
-    list.appendChild(waitingTitle);
-    if(waiting.length === 0){
-      var e2 = document.createElement('div');
-      e2.className = 'focus-empty';
-      e2.textContent = '沒有等待中的項目。';
-      list.appendChild(e2);
-    }else{
-      waiting.forEach(function(t){ list.appendChild(buildRow(t)); });
-    }
-
-    if(done.length > 0){
-      var doneTitle = document.createElement('div');
-      doneTitle.className = 'group-title';
-      doneTitle.textContent = '已完成';
-      list.appendChild(doneTitle);
-      done.forEach(function(t){ list.appendChild(buildRow(t)); });
-    }
-
-    updateProgress();
   }
 
-  function buildRow(t){
-    var row = document.createElement('div');
-    row.className = 'task-row' + (t.status === 'doing' ? ' doing' : '') + (t.status === 'done' ? ' done' : '');
-    var options = ['doing','waiting','done'].map(function(s){
-      return '<option value="' + s + '"' + (t.status === s ? ' selected' : '') + '>' + statusLabels[s] + '</option>';
-    }).join('');
-    row.innerHTML =
-      '<div class="task-row-top">' +
-        '<select data-field="status">' + options + '</select>' +
-        '<textarea rows="1" placeholder="要做的事" data-field="task">' + (t.task || '') + '</textarea>' +
-        '<button class="task-save" aria-label="儲存這項">✓</button>' +
-        '<button class="task-del" aria-label="刪除項目">×</button>' +
-      '</div>' +
-      '<textarea rows="1" placeholder="備註" data-field="note">' + (t.note || '') + '</textarea>';
-    row.querySelector('[data-field="status"]').addEventListener('change', function(e){
-      setStatus(t, e.target.value);
-      renderTasks();
-      saveAll();
-    });
-    var taskEl = row.querySelector('[data-field="task"]');
-    var noteEl = row.querySelector('[data-field="note"]');
-    autoGrow(taskEl);
-    autoGrow(noteEl);
-    taskEl.addEventListener('input', function(e){ t.task = e.target.value; updateProgress(); autoGrow(e.target); });
-    noteEl.addEventListener('input', function(e){ t.note = e.target.value; autoGrow(e.target); });
-    var saveBtn = row.querySelector('.task-save');
-    saveBtn.addEventListener('click', function(){
-      saveBtn.classList.add('saved');
-      saveAll().then(function(){
-        setTimeout(function(){ saveBtn.classList.remove('saved'); }, 900);
+  function buildCard(t){
+    var card = document.createElement('div');
+    card.className = 'task-card';
+
+    if(editingId === t.id){
+      card.innerHTML =
+        '<div class="edit-field"><label>任務名稱</label><input type="text" data-e="name" value="' + (t.task||'').replace(/"/g,'&quot;') + '"></div>' +
+        '<div class="edit-field"><label>敘述</label><textarea rows="2" data-e="desc">' + (t.note||'') + '</textarea></div>' +
+        '<div class="edit-field"><label>優先程度</label><select data-e="pri">' +
+          '<option value="high"' + (t.priority==='high'?' selected':'') + '>🔴 高優先</option>' +
+          '<option value="mid"' + (t.priority==='mid'?' selected':'') + '>🟠 中優先</option>' +
+          '<option value="low"' + (t.priority==='low'?' selected':'') + '>🟢 低優先</option>' +
+        '</select></div>' +
+        '<div class="edit-actions">' +
+          '<button class="btn btn-outline" data-e="cancel">取消</button>' +
+          '<button class="btn" data-e="save">儲存</button>' +
+        '</div>';
+      card.querySelector('[data-e="cancel"]').addEventListener('click', function(){
+        editingId = null; renderBoards();
       });
-    });
-    row.querySelector('.task-del').addEventListener('click', function(){
-      currentTasks.splice(currentTasks.indexOf(t),1);
-      renderTasks();
+      card.querySelector('[data-e="save"]').addEventListener('click', function(){
+        var name = card.querySelector('[data-e="name"]').value.trim();
+        if(!name){
+          currentTasks.splice(currentTasks.indexOf(t), 1);
+        }else{
+          t.task = name;
+          t.note = card.querySelector('[data-e="desc"]').value.trim();
+          t.priority = card.querySelector('[data-e="pri"]').value;
+        }
+        editingId = null;
+        renderBoards();
+        saveAll();
+      });
+      return card;
+    }
+
+    var topHtml =
+      '<span class="task-icon">' + statusIcons[t.status] + '</span>' +
+      '<span class="pri-dot" style="background:' + priorityColors[t.priority] + '"></span>' +
+      '<span class="task-name">' + (t.task || '').replace(/</g,'&lt;') + '</span>' +
+      '<button class="task-del" aria-label="刪除項目">×</button>';
+    var top = document.createElement('div');
+    top.className = 'task-top';
+    top.innerHTML = topHtml;
+    top.querySelector('.task-del').addEventListener('click', function(){
+      currentTasks.splice(currentTasks.indexOf(t), 1);
+      renderBoards();
       saveAll();
     });
-    return row;
+    card.appendChild(top);
+
+    if(t.note){
+      var desc = document.createElement('p');
+      desc.className = 'task-desc';
+      desc.textContent = t.note;
+      card.appendChild(desc);
+    }
+
+    if(t.status !== 'done'){
+      var actions = document.createElement('div');
+      actions.className = 'task-actions';
+      var editBtn = document.createElement('button');
+      editBtn.textContent = '編輯';
+      editBtn.addEventListener('click', function(){ editingId = t.id; renderBoards(); });
+      var progBtn = document.createElement('button');
+      progBtn.className = t.status === 'doing' ? 'primary' : '';
+      progBtn.textContent = '更新進度';
+      progBtn.addEventListener('click', function(){ openStatusModal(t); });
+      actions.appendChild(editBtn);
+      actions.appendChild(progBtn);
+      card.appendChild(actions);
+    }
+
+    return card;
   }
 
-  document.getElementById('addTaskBtn').addEventListener('click', function(){
-    currentTasks.push({task:'', note:'', status:'waiting'});
-    renderTasks();
+  function openStatusModal(t){
+    modalTaskId = t.id;
+    document.getElementById('modalTaskName').textContent = t.task || '(未命名任務)';
+    document.getElementById('modalStatusSelect').value = t.status;
+    document.getElementById('modalOverlay').hidden = false;
+  }
+  function closeStatusModal(){
+    modalTaskId = null;
+    document.getElementById('modalOverlay').hidden = true;
+  }
+  document.getElementById('modalCancel').addEventListener('click', closeStatusModal);
+  document.getElementById('modalOverlay').addEventListener('click', function(e){
+    if(e.target.id === 'modalOverlay') closeStatusModal();
+  });
+  document.getElementById('modalConfirm').addEventListener('click', function(){
+    var t = currentTasks.find(function(x){ return x.id === modalTaskId; });
+    if(t){
+      setStatus(t, document.getElementById('modalStatusSelect').value);
+      renderBoards();
+      saveAll();
+    }
+    closeStatusModal();
   });
 
-  function saveAll(indicatorEl){
+  function addNewTask(){
+    var nameInput = document.getElementById('newTaskName');
+    var descInput = document.getElementById('newTaskDesc');
+    var priSelect = document.getElementById('newTaskPriority');
+    var statusSelect = document.getElementById('newTaskStatus');
+    var name = nameInput.value.trim();
+    if(!name){ nameInput.focus(); return; }
+    var status = statusSelect.value;
+    if(status === 'doing'){
+      currentTasks.forEach(function(other){ if(other.status === 'doing') other.status = 'waiting'; });
+    }
+    currentTasks.push({id: genId(), task: name, note: descInput.value.trim(), status: status, priority: priSelect.value});
+    nameInput.value = '';
+    descInput.value = '';
+    priSelect.value = 'mid';
+    statusSelect.value = 'waiting';
+    autoGrow(descInput);
+    renderBoards();
+    saveAll();
+  }
+  document.getElementById('addTaskBtn').addEventListener('click', addNewTask);
+  document.getElementById('newTaskDesc').addEventListener('input', function(e){ autoGrow(e.target); });
+
+  function saveAll(){
     var data = {
       savedAt: new Date().toISOString(),
-      tasks: currentTasks.filter(function(t){ return t.task || t.note; })
+      tasks: currentTasks
+        .filter(function(t){ return t.task || t.note; })
+        .map(function(t){ return {id:t.id, task:t.task||'', note:t.note||'', status:t.status, priority:t.priority}; })
     };
-    if(indicatorEl) indicatorEl.textContent = '儲存中...';
-    return set(ref(db, 'dayTasks/' + toKey(cur)), data).then(function(){
-      if(indicatorEl) indicatorEl.textContent = '已儲存';
-    }).catch(function(){
-      if(indicatorEl) indicatorEl.textContent = '儲存失敗';
-    });
+    set(ref(db, 'dayTasks/' + toKey(cur)), data);
   }
 
-  document.getElementById('saveBtn').addEventListener('click', function(){
-    saveAll(document.getElementById('saveStatus'));
-  });
-
-  document.getElementById('prevDay').addEventListener('click', function(){
-    cur.setDate(cur.getDate()-1);
-    render();
-  });
-  document.getElementById('nextDay').addEventListener('click', function(){
-    cur.setDate(cur.getDate()+1);
-    render();
-  });
+  document.getElementById('prevDay').addEventListener('click', function(){ cur.setDate(cur.getDate()-1); render(); });
+  document.getElementById('nextDay').addEventListener('click', function(){ cur.setDate(cur.getDate()+1); render(); });
 
   function renderHistory(allData){
     var list = document.getElementById('historyList');
     var keys = Object.keys(allData || {}).sort().reverse();
-    if(keys.length === 0){
-      list.innerHTML = '<div class="empty">還沒有任何紀錄。</div>';
-      return;
-    }
+    if(keys.length === 0){ list.innerHTML = '<div class="empty">還沒有任何紀錄。</div>'; return; }
     list.innerHTML = '';
     keys.slice(0,14).forEach(function(dateStr){
       var data = allData[dateStr] || {};
@@ -540,7 +437,7 @@
       var done = tasks.filter(function(t){ return t.task && t.status === 'done'; }).length;
       var item = document.createElement('div');
       item.className = 'history-item';
-      item.innerHTML = '<span class="wk">' + dateStr + '</span><span class="ratio">' + done + ' / ' + total + ' 已完成</span>';
+      item.innerHTML = '<span>' + dateStr + '</span><span class="ratio">' + done + ' / ' + total + ' 已完成</span>';
       item.addEventListener('click', function(){
         var parts = dateStr.split('-').map(Number);
         cur = new Date(parts[0], parts[1]-1, parts[2]);
@@ -549,9 +446,51 @@
       list.appendChild(item);
     });
   }
+  onValue(ref(db, 'dayTasks'), function(snapshot){ renderHistory(snapshot.val()); });
 
-  onValue(ref(db, 'dayTasks'), function(snapshot){
-    renderHistory(snapshot.val());
+  var seedAnnouncements = ['記得下班前回報缺工具清單給主管', '明天開線前先列印第二款車種爆炸圖', '週五前補完週複盤'];
+  var announceItems = [];
+  var announceIdx = 0;
+
+  function renderAnnounceTrack(){
+    var track = document.getElementById('announceTrack');
+    track.innerHTML = '';
+    var items = announceItems.length ? announceItems : seedAnnouncements;
+    items.forEach(function(text){
+      var p = document.createElement('p');
+      p.textContent = text;
+      track.appendChild(p);
+    });
+    if(items.length > 1){
+      track.style.animation = 'tickerUp ' + (items.length * 3) + 's ease-in-out infinite';
+    }else{
+      track.style.animation = 'none';
+    }
+  }
+
+  onValue(ref(db, 'announcements'), function(snapshot){
+    var data = snapshot.val() || {};
+    announceItems = Object.keys(data).sort().reverse().slice(0,6).map(function(k){ return data[k].text; });
+    renderAnnounceTrack();
+  });
+  renderAnnounceTrack();
+
+  var announceForm = document.getElementById('announceForm');
+  document.getElementById('announceToggle').addEventListener('click', function(){
+    announceForm.classList.toggle('open');
+    if(announceForm.classList.contains('open')) document.getElementById('announceInput').focus();
+  });
+  function submitAnnounce(){
+    var input = document.getElementById('announceInput');
+    var text = input.value.trim();
+    if(!text) return;
+    push(ref(db, 'announcements'), {text: text, createdAt: new Date().toISOString()});
+    input.value = '';
+    announceForm.classList.remove('open');
+  }
+  document.getElementById('announceSubmit').addEventListener('click', submitAnnounce);
+  document.getElementById('announceInput').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ e.preventDefault(); submitAnnounce(); }
   });
 
   render();
